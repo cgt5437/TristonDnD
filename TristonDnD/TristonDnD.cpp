@@ -10,7 +10,9 @@
 using namespace std;
 
 int options(int);
-int bin_option(string, string);
+int bin_option(string, string, string, string);
+void pause();
+void clear();
 
 void main_menu();
 
@@ -40,12 +42,12 @@ void main_menu()
 		cin >> player_choice;
 		if (player_choice == 1)
 		{
-			system("CLS");
-			cout << "\nWhat is your name traveller? ";
+            cout << "\033[2J\033[1;1H";
+			cout << "\nWhat is your name traveler? ";
 			cin.ignore();
 			getline(cin, player_name);
 			cout << "Welcome " << player_name << " to this new adventure world!\n\nAre you ready?" << endl;
-			
+
 			int choice = options(1);
 			if (choice == 1)
 			{
@@ -58,18 +60,14 @@ void main_menu()
 		}
 		else if (player_choice == 2)
 		{
-			
+            cout << "NO SAVES FOUND" << endl;
 		}
 		else if (player_choice == 3)
 		{
+            cout << "NO OPTIONS AVAILABLE" << endl;
 		}
 		else if (player_choice == 4)
-		{
-			
-		}
-		else
-		{
-			break;
+		{            break;
 		}
 	}
 
@@ -81,7 +79,7 @@ op0:
 
 op1:
 	{
-		system("CLS");
+        cout << "\033[2J\033[1;1H";
 		cout << endl << "You find yourself in a dark forest late at night \n\n"
 			<< "You hear nothing but the howling of the wind and the rustling of the leaves \n\n"
 			<< "Ahead of you there are two paths with a old sign that reads: \n\n"
@@ -92,7 +90,7 @@ op1:
 		// Options(2) is l/r option
 		// op2 is Triston's Cabin
 		// op3 is Chrissyvale
-		if (options(2) != 0)
+		if (bin_option("Left", "Right", "L", "R") == 0)
 		{
 			goto op2;
 		}
@@ -104,11 +102,11 @@ op1:
 
 op2:
 	{
-		system("CLS");
+        cout << "\033[2J\033[1;1H";
 		cout << "\nYou head down the path to Triston's Cabin...\n" << endl;
 		cout << "As you approach the cabin you can see the faint light of a candle through one of the windows...\n" << endl;
 		cout << "You decide you can either ";
-		int choice = bin_option("go closer", "turn around");
+		int choice = bin_option("go closer", "turn around","c","t");
 		if (choice == 0)
 		{
 			goto op21;
@@ -126,7 +124,7 @@ op21:
 
 op3:
 	{
-		system("CLS");
+		cout << "\033[2J\033[1;1H";
 		cout << "\nYou head down the path to Chrissyvale" << endl;
 		goto op99;
 	}
@@ -136,24 +134,24 @@ op99:
 		cout << "\n\nYou've reached an unfinished path! Sorry!" << endl;
 		cout << "2019 (c) Blaine Harper" << endl;
 
-		system("pause");
+		pause();
 	}
 }
 
-int bin_option(string option_one, string option_two)
+int bin_option(string option_one, string option_two, string op_one_short, string op_two_short)
 {
-	int player_choice; 
-	int player_response;
+	int player_choice;
+	string player_response;
 	while (true)
 	{
-		cout << option_one << " (0) or " << option_two << " (1)??\n> ";
+		cout << option_one << " (" << op_one_short << ") or " << option_two << " (" << op_two_short << ")?\n> ";
 		cin >> player_response;
-		if (player_response == 0)
+		if (player_response.rfind(op_one_short, 0) == 0)
 		{
 			player_choice = 0;
 			break;
 		}
-		else if (player_response == 1)
+		else if (player_response.rfind(op_two_short, 0) == 0)
 		{
 			player_choice = 1;
 			break;
@@ -168,7 +166,7 @@ int bin_option(string option_one, string option_two)
 
 int options(int default_option)
 {
-	int player_choice;
+	int player_choice = 0;
 	string player_response;
 
 	if (default_option == 1)
@@ -188,7 +186,7 @@ int options(int default_option)
 			{
 				player_choice = 0;
 				break;
-			} 
+			}
 			else
 			{
 				cout << "Try again!" << endl;
@@ -220,4 +218,15 @@ int options(int default_option)
 		}
 	}
 	return player_choice;
+}
+
+void pause()
+{
+    std::cout << "Press enter to continue ...";
+    std::cin.get();
+}
+
+void clear()
+{
+    std::cout << "\033[2J\033[1;1H";
 }

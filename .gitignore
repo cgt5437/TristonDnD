@@ -3,6 +3,7 @@
 
 main/
 *.sh
+TristonDnd/main.cpp
 
 # User-specific files
 *.suo
